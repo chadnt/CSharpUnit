@@ -6,7 +6,10 @@ namespace CSharpUnit
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            var test = new WasRun("TestMethod");
+            Console.WriteLine(test.HasRun);
+            test.Run();
+            Console.WriteLine(test.HasRun);
         }
     }
 }
