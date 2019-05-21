@@ -9,11 +9,15 @@ namespace CSharpUnit
             this.testName = testName;
         }
 
-        public bool HasRun { get; private set; }
+        protected override void Setup()
+        {
+            HasRun = false;
+            WasSetup = true;
+        }
 
         public void TestMethod()
         {
-            this.HasRun = true;
+            HasRun = true;
         }
     }
 }
