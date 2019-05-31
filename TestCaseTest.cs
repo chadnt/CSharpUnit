@@ -1,6 +1,5 @@
 using System;
 using System.Diagnostics;
-using System.Reflection;
 
 namespace CSharpUnit
 {
@@ -10,22 +9,35 @@ namespace CSharpUnit
         {
             this.testName = testName;
         }
-        
-        protected override void Setup()
+
+        public void TestTemplateMethod()
         {
             test = new WasRun("TestMethod");
+            test.Run();
+            AssertTrue(nameof(TestTemplateMethod), "Setup TestMethod TearDown " == test.Log);
         }
 
-        public void TestRunning()
+        public void TestResult()
         {
-            test.Run();
-            AssertTrue(MethodBase.GetCurrentMethod().Name, test.HasRun);
+            test = new WasRun("TestMethod");
+            TestResult result = test.Run();
+            AssertTrue(nameof(TestResult), "1 run, 0 failed" == result.Summary());
         }
 
-        public void TestSetup()
+        public void TestFailedResult()
         {
-            test.Run();
-            AssertTrue(MethodBase.GetCurrentMethod().Name, test.WasSetup);
+            test = new WasRun("TestBrokenMethod");
+            TestResult result = test.Run();
+            AssertTrue(nameof(TestFailedResult), "1 run, 1 failed" == result.Summary());
+        }
+
+        public void TestFailedResultFormatting()
+        {
+            var result = new TestResult();
+            result.TestStarted();
+            result.TestFailed();
+            AssertTrue(nameof(TestFailedResultFormatting), "1 run, 1 failed" == result.Summary());
+
         }
     }
 }

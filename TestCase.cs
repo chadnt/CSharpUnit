@@ -7,18 +7,33 @@ namespace CSharpUnit
     {
         protected string testName;
         protected TestCase test;
+        public string Log { get; protected set; }
 
-        public bool HasRun { get; set; }
-        public bool WasSetup { get; set;}
-
-        internal void Run()
+        internal TestResult Run()
         {
-            Setup();
-            MethodInfo method = this.GetType().GetMethod(testName);
-            method.Invoke(this, null);
+            var result = new TestResult();
+            result.TestStarted();
+            try
+            {
+                Setup();
+                MethodInfo method = GetType().GetMethod(testName);
+                method?.Invoke(this, null);
+            }
+            catch (Exception)
+            {
+                result.TestFailed();
+            }
+            finally
+            {
+                TearDown();
+            }
+            
+            return result;
         }
 
         protected virtual void Setup() { }
+
+        protected virtual void TearDown() { }
 
         protected void Pass(string testName)
         {

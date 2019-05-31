@@ -6,8 +6,10 @@ namespace CSharpUnit
     {
         static void Main(string[] args)
         {
-            new TestCaseTest("TestRunning").Run();
-            new TestCaseTest("TestSetup").Run();
+            new TestCaseTest("TestTemplateMethod").Run();
+            new TestCaseTest("TestResult").Run();
+            new TestCaseTest("TestFailedResult").Run();
+            new TestCaseTest("TestFailedResultFormatting").Run();
         }
     }
 }

@@ -11,13 +11,22 @@ namespace CSharpUnit
 
         protected override void Setup()
         {
-            HasRun = false;
-            WasSetup = true;
+            Log = nameof(Setup) + " ";
         }
 
         public void TestMethod()
         {
-            HasRun = true;
+            Log = Log + nameof(TestMethod) + " ";
+        }
+
+        protected override void TearDown()
+        {
+            Log = Log + nameof(TearDown) + " ";
+        }
+
+        public void TestBrokenMethod()
+        {
+            throw new NotImplementedException();
         }
     }
 }
