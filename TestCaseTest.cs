@@ -39,5 +39,14 @@ namespace CSharpUnit
             AssertTrue(nameof(TestFailedResultFormatting), "1 run, 1 failed" == result.Summary());
 
         }
+
+        public void TestSuite()
+        {
+            var suite = new TestSuite();
+            suite.Add(new WasRun("TestMethod"));
+            suite.Add(new WasRun("TestBrokenMethod"));
+            var result = suite.Run();
+            AssertTrue(nameof(TestSuite), "2 run, 1 failed" == result.Summary());
+        }
     }
 }

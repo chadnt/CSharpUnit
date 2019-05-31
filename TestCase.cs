@@ -9,9 +9,8 @@ namespace CSharpUnit
         protected TestCase test;
         public string Log { get; protected set; }
 
-        internal TestResult Run()
+        internal void Run(TestResult result)
         {
-            var result = new TestResult();
             result.TestStarted();
             try
             {
@@ -27,7 +26,13 @@ namespace CSharpUnit
             {
                 TearDown();
             }
-            
+        }
+
+        internal TestResult Run()
+        {
+            var result = new TestResult();
+            Run(result);
+
             return result;
         }
 

@@ -6,10 +6,14 @@ namespace CSharpUnit
     {
         static void Main(string[] args)
         {
-            new TestCaseTest("TestTemplateMethod").Run();
-            new TestCaseTest("TestResult").Run();
-            new TestCaseTest("TestFailedResult").Run();
-            new TestCaseTest("TestFailedResultFormatting").Run();
+            var suite = new TestSuite();
+            suite.Add(new TestCaseTest("TestTemplateMethod"));
+            suite.Add(new TestCaseTest("TestResult"));
+            suite.Add(new TestCaseTest("TestFailedResult"));
+            suite.Add(new TestCaseTest("TestFailedResultFormatting"));
+            suite.Add(new TestCaseTest("TestSuite"));
+            var result = suite.Run();
+            Console.WriteLine(result.Summary());
         }
     }
 }
