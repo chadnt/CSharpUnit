@@ -13,7 +13,18 @@ namespace CSharpUnit
             suite.Add(new TestCaseTest("TestFailedResultFormatting"));
             suite.Add(new TestCaseTest("TestSuite"));
             var result = suite.Run();
-            Console.WriteLine(result.Summary());
+            Display(result);
+        }
+
+        private static void Display(TestResult result)
+        {
+            Console.WriteLine(result.Summary);
+            Console.ForegroundColor = ConsoleColor.Red;
+            foreach(var test in result.FailedTests)
+            {
+                Console.WriteLine(test);
+            }
+            Console.ResetColor();
         }
     }
 }

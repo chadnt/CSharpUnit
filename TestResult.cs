@@ -1,25 +1,25 @@
 using System;
+using System.Collections.Generic;
 
 namespace CSharpUnit
 {
     class TestResult
     {
-        private int runCount = 0;
-        private int failCount = 0;
+        public List<string> FailedTests { get; } = new List<string>();
+        internal int FailCount { get; private set; }
+        internal int RunCount { get; private set; }
 
-        internal string Summary()
-        {
-            return $"{runCount} run, {failCount} failed";
-        }
+        internal string Summary => $"{RunCount} run, {FailCount} failed";
 
-        internal void TestFailed()
+        internal void TestFailed(string testName)
         {
-            failCount += 1;
+            FailCount += 1;
+            FailedTests.Add(testName);
         }
 
         internal void TestStarted()
         {
-            runCount += 1;
+            RunCount += 1;
         }
     }
 }

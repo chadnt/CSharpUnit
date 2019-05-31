@@ -14,30 +14,32 @@ namespace CSharpUnit
         {
             test = new WasRun("TestMethod");
             test.Run();
-            AssertTrue(nameof(TestTemplateMethod), "Setup TestMethod TearDown " == test.Log);
+            AssertTrue("Setup TestMethod TearDown " == test.Log);
         }
 
         public void TestResult()
         {
             test = new WasRun("TestMethod");
             TestResult result = test.Run();
-            AssertTrue(nameof(TestResult), "1 run, 0 failed" == result.Summary());
+            AssertTrue("1 run, 0 failed" == result.Summary);
         }
 
         public void TestFailedResult()
         {
             test = new WasRun("TestBrokenMethod");
             TestResult result = test.Run();
-            AssertTrue(nameof(TestFailedResult), "1 run, 1 failed" == result.Summary());
+            AssertTrue("1 run, 1 failed" == result.Summary);
         }
 
         public void TestFailedResultFormatting()
         {
             var result = new TestResult();
             result.TestStarted();
-            result.TestFailed();
-            AssertTrue(nameof(TestFailedResultFormatting), "1 run, 1 failed" == result.Summary());
-
+            result.TestFailed("Foo");
+            AssertTrue(1 == result.FailCount);
+            AssertTrue(1 == result.RunCount);
+            AssertTrue("1 run, 1 failed" == result.Summary);
+            AssertTrue(result.FailedTests.Contains("Foo"));
         }
 
         public void TestSuite()
@@ -46,7 +48,7 @@ namespace CSharpUnit
             suite.Add(new WasRun("TestMethod"));
             suite.Add(new WasRun("TestBrokenMethod"));
             var result = suite.Run();
-            AssertTrue(nameof(TestSuite), "2 run, 1 failed" == result.Summary());
+            AssertTrue("2 run, 1 failed" == result.Summary);
         }
     }
 }

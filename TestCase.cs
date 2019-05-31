@@ -12,15 +12,15 @@ namespace CSharpUnit
         internal void Run(TestResult result)
         {
             result.TestStarted();
+            MethodInfo method = GetType().GetMethod(testName);
             try
             {
                 Setup();
-                MethodInfo method = GetType().GetMethod(testName);
                 method?.Invoke(this, null);
             }
             catch (Exception)
             {
-                result.TestFailed();
+                result.TestFailed(method.Name);
             }
             finally
             {
@@ -40,31 +40,11 @@ namespace CSharpUnit
 
         protected virtual void TearDown() { }
 
-        protected void Pass(string testName)
+        protected void AssertTrue(bool state)
         {
-            Console.Write(testName);
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine($" Pass");
-            Console.ResetColor();
-        }
-
-        protected void Fail(string testName)
-        {
-            Console.Write(testName);
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine($" Fail");
-            Console.ResetColor();
-        }
-
-        protected void AssertTrue(string testName, bool state)
-        {
-            if(state)
+            if(!state)
             {
-                Pass(testName);
-            }
-            else
-            {
-                Fail(testName);
+                throw new TestFailException();
             }
         }
     }
